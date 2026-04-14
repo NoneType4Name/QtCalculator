@@ -2,6 +2,7 @@
 #define Calculator_HXX
 
 #include <QMainWindow>
+#include <qlist.h>
 #include "CalcusEnj.hxx"
 #define T_DEFINE_SIGNATURE_BUTTON_CLICKED( N ) \
     void on_button##N##_clicked();
@@ -48,11 +49,12 @@ class Calculator : public QMainWindow
     T_DEFINE_SIGNATURE_BUTTON_CLICKED( Bs )
     T_DEFINE_SIGNATURE_BUTTON_CLICKED( Ang )
     T_DEFINE_SIGNATURE_BUTTON_CLICKED( Inj )
-
-  private:
-    Calcus cEnj;
+  protected:
     Ui::Calculator *ui;
+    Calcus cEnj;
     bool afterOp { 0 };
+    friend class InjCalculator;
+    QList<class InjCalculator *> childs;
 };
 
 #endif // Calculator_HXX

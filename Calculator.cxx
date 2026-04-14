@@ -1,4 +1,5 @@
 #include "Calculator.hxx"
+#include "InjCalculator.hxx"
 #include "ui_calculator.h"
 #include <cmath>
 #include <qmath.h>
@@ -187,12 +188,13 @@ T_DEFINE_BUTTON_CLICKED( Ang )
 
 T_DEFINE_BUTTON_CLICKED( Inj )
 {
-    ui->buttonTg->setHidden( !ui->buttonTg->isHidden() );
-    ui->buttonCos->setHidden( !ui->buttonCos->isHidden() );
-    ui->buttonSin->setHidden( !ui->buttonSin->isHidden() );
-    ui->buttonPi->setHidden( !ui->buttonPi->isHidden() );
-    ui->buttonE->setHidden( !ui->buttonE->isHidden() );
-    ui->buttonAng->setHidden( !ui->buttonAng->isHidden() );
-    ui->buttonSqrt->setHidden( !ui->buttonSqrt->isHidden() );
-    ui->buttonPow->setHidden( !ui->buttonPow->isHidden() );
+    // ui->buttonTg->setHidden( !ui->buttonTg->isHidden() );
+    // ui->buttonCos->setHidden( !ui->buttonCos->isHidden() );
+    // ui->buttonSin->setHidden( !ui->buttonSin->isHidden() );
+    // ui->buttonPi->setHidden( !ui->buttonPi->isHidden() );
+    // ui->buttonE->setHidden( !ui->buttonE->isHidden() );
+    // ui->buttonAng->setHidden( !ui->buttonAng->isHidden() );
+    // ui->buttonSqrt->setHidden( !ui->buttonSqrt->isHidden() );
+    // ui->buttonPow->setHidden( !ui->buttonPow->isHidden() );
+    ( new InjCalculator( this ) )->show();
 }
