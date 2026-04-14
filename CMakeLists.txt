@@ -15,9 +15,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
     main.cxx
-    injcalculator.cxx
-    injcalculator.hxx
-    injcalculator.ui
+    Calculator.cxx
+    Calculator.hxx
+    Calculator.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

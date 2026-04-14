@@ -1,5 +1,5 @@
-#ifndef INJCALCULATOR_HXX
-#define INJCALCULATOR_HXX
+#ifndef Calculator_HXX
+#define Calculator_HXX
 
 #include <QMainWindow>
 #include "CalcusEnj.hxx"
@@ -8,16 +8,16 @@
 
 namespace Ui
 {
-    class InjCalculator;
+    class Calculator;
 }
 
-class InjCalculator : public QMainWindow
+class Calculator : public QMainWindow
 {
     Q_OBJECT
 
   public:
-    explicit InjCalculator( QWidget *parent = nullptr );
-    ~InjCalculator();
+    explicit Calculator( QWidget *parent = nullptr );
+    ~Calculator();
 
   private slots:
     T_DEFINE_SIGNATURE_BUTTON_CLICKED( 0 )
@@ -51,8 +51,8 @@ class InjCalculator : public QMainWindow
 
   private:
     Calcus cEnj;
-    Ui::InjCalculator *ui;
+    Ui::Calculator *ui;
     bool afterOp { 0 };
 };
 
-#endif // INJCALCULATOR_HXX
+#endif // Calculator_HXX

@@ -1,11 +1,11 @@
-#include "injcalculator.hxx"
+#include "calculator.hxx"
 
 #include <QApplication>
 
 int main( int argc, char *argv[] )
 {
     QApplication a( argc, argv );
-    InjCalculator injCalc;
+    Calculator injCalc;
     injCalc.show();
     return a.exec();
 }

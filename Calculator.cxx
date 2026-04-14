@@ -1,15 +1,15 @@
-#include "injcalculator.hxx"
-#include "ui_injcalculator.h"
+#include "Calculator.hxx"
+#include "ui_calculator.h"
 #include <cmath>
 #include <qmath.h>
 #include <qobject.h>
 #include <string>
 
 #define T_DEFINE_BUTTON_CLICKED( N ) \
-    void InjCalculator::on_button##N##_clicked()
+    void Calculator::on_button##N##_clicked()
 
 #define T_DEFINE_DIGITAL_BUTTON_CLICKED( N )                \
-    void InjCalculator::on_button##N##_clicked()            \
+    void Calculator::on_button##N##_clicked()               \
     {                                                       \
         if ( afterOp || ui->lineEdit->text() == "0" )       \
         {                                                   \
@@ -28,7 +28,7 @@
     }
 
 #define T_DEFINE_OPERATION_BUTTON_CLICKED( N )             \
-    void InjCalculator::on_button##N##_clicked()           \
+    void Calculator::on_button##N##_clicked()              \
     {                                                      \
         cEnj.operation = &Calcus::operations::operator##N; \
         cEnj.previous  = sToD( ui->lineEdit->text().toStdString() );
@@ -43,9 +43,9 @@ double sToD( std::string s )
         return std::stod( s );
 }
 
-InjCalculator::InjCalculator( QWidget *parent ) :
+Calculator::Calculator( QWidget *parent ) :
     QMainWindow( parent ),
-    ui( new Ui::InjCalculator )
+    ui( new Ui::Calculator )
 {
     ui->setupUi( this );
     ui->buttonTg->setHidden( true );
@@ -58,7 +58,7 @@ InjCalculator::InjCalculator( QWidget *parent ) :
     ui->buttonPow->setHidden( true );
 }
 
-InjCalculator::~InjCalculator()
+Calculator::~Calculator()
 {
     delete ui;
 }
@@ -138,7 +138,7 @@ T_DEFINE_BUTTON_CLICKED( Equal )
         return;
     }
 
-    auto d { std::to_string( cEnj.previous ) };
+    auto d { std::to_string( std::round( cEnj.previous * 1e10 ) * 1e-10 ) };
     d.erase( d.find_last_not_of( '0' ) + 1, std::string::npos );
     d.erase( d.find_last_not_of( '.' ) + 1, std::string::npos );
     ui->lineEdit->setText( QString::fromStdString( d ) );
