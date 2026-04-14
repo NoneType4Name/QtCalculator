@@ -1,42 +1,47 @@
 #include "injcalculator.hxx"
 #include "ui_injcalculator.h"
 #include <cmath>
+#include <qmath.h>
 #include <qobject.h>
 #include <string>
 
 #define T_DEFINE_BUTTON_CLICKED( N ) \
     void InjCalculator::on_button##N##_clicked()
 
-#define T_DEFINE_DIGITAL_BUTTON_CLICKED( N )                                  \
-    void InjCalculator::on_button##N##_clicked()                              \
-    {                                                                         \
-        auto d { ui->lineEdit->text().toStdString() };                        \
-        if ( afterOp )                                                        \
-        {                                                                     \
-            ui->lineEdit->setText( "0" );                                     \
-            afterOp = false;                                                  \
-        }                                                                     \
-        for ( auto s : d )                                                    \
-        {                                                                     \
-            if ( s == 'e' || s == 'p' )                                       \
-            {                                                                 \
-                return;                                                       \
-            }                                                                 \
-        }                                                                     \
-        if ( cEnj.previous )                                                  \
-            ui->lineEdit->setText( #N );                                      \
-        else                                                                  \
-            ui->lineEdit->setText( ui->lineEdit->text() + #N );               \
-        if ( !cEnj.operation )                                                \
-        {                                                                     \
-            cEnj.previous = std ::stod( ui->lineEdit->text().toStdString() ); \
-        }                                                                     \
+#define T_DEFINE_DIGITAL_BUTTON_CLICKED( N )                \
+    void InjCalculator::on_button##N##_clicked()            \
+    {                                                       \
+        if ( afterOp || ui->lineEdit->text() == "0" )       \
+        {                                                   \
+            ui->lineEdit->clear();                          \
+            afterOp = false;                                \
+        }                                                   \
+        auto d { ui->lineEdit->text().toStdString() };      \
+        for ( auto s : d )                                  \
+        {                                                   \
+            if ( s == 'e' || s == 'p' )                     \
+            {                                               \
+                return;                                     \
+            }                                               \
+        }                                                   \
+        ui->lineEdit->setText( ui->lineEdit->text() + #N ); \
     }
 
-#define T_DEFINE_OPERATION_BUTTON_CLICKED( N )   \
-    void InjCalculator::on_button##N##_clicked() \
-    {                                            \
-        cEnj.operation = &Calcus::operations::operator##N;
+#define T_DEFINE_OPERATION_BUTTON_CLICKED( N )             \
+    void InjCalculator::on_button##N##_clicked()           \
+    {                                                      \
+        cEnj.operation = &Calcus::operations::operator##N; \
+        cEnj.previous  = sToD( ui->lineEdit->text().toStdString() );
+
+double sToD( std::string s )
+{
+    if ( s == "p" )
+        return M_PI;
+    else if ( s == "e" )
+        return M_E;
+    else
+        return std::stod( s );
+}
 
 InjCalculator::InjCalculator( QWidget *parent ) :
     QMainWindow( parent ),
@@ -125,7 +130,7 @@ T_DEFINE_BUTTON_CLICKED( Equal )
 {
     if ( cEnj.operation )
     {
-        cEnj.previous = ( cEnj.ops.*( cEnj.operation ) )( std::stod( ui->lineEdit->text().toStdString() ) );
+        cEnj.previous = ( cEnj.ops.*( cEnj.operation ) )( ( sToD( ui->lineEdit->text().toStdString() ) ) );
     }
     if ( cEnj.previous == INFINITY )
     {
@@ -141,8 +146,11 @@ T_DEFINE_BUTTON_CLICKED( Equal )
 
 T_DEFINE_BUTTON_CLICKED( Dot )
 {
-    if ( ui->lineEdit->text().isEmpty() )
+    if ( ui->lineEdit->text().isEmpty() || afterOp )
+    {
         ui->lineEdit->setText( "0" );
+        afterOp = false;
+    }
     else
     {
         for ( auto s : ui->lineEdit->text().toStdString() )
@@ -154,13 +162,11 @@ T_DEFINE_BUTTON_CLICKED( Dot )
 T_DEFINE_BUTTON_CLICKED( E )
 {
     ui->lineEdit->setText( "e" );
-    cEnj.previous = M_E;
 }
 
 T_DEFINE_BUTTON_CLICKED( Pi )
 {
     ui->lineEdit->setText( "p" );
-    cEnj.previous = M_PI;
 }
 
 T_DEFINE_BUTTON_CLICKED( Bs )
